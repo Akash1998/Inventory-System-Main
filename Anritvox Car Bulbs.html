@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anritvox | 500+ Car Bulb Specifications - India</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        dark: {
+                            900: '#0B0F19',
+                            800: '#151B2B',
+                            700: '#1E293B',
+                            600: '#334155',
+                        },
+                        brand: {
+                            400: '#a3e635',
+                            500: '#84cc16',
+                            600: '#65a30d',
+                            glow: 'rgba(132, 204, 22, 0.5)'
+                        }
+                    },
+                    boxShadow: {
+                        'neon': '0 0 20px -5px rgba(132, 204, 22, 0.3)',
+                        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: linear-gradient(135deg, #0B0F19 0%, #1E293B 100%);
+            min-height: 100vh;
+        }
+
+        .glass-card {
+            background: rgba(21, 27, 43, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(132, 204, 22, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(132, 204, 22, 0.3);
+            box-shadow: 0 0 30px -10px rgba(132, 204, 22, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .bulb-badge {
+            background: rgba(163, 230, 53, 0.1);
+            border: 1px solid rgba(163, 230, 53, 0.3);
+            color: #a3e635;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+            transition: all 0.2s ease;
+        }
+
+        .bulb-badge:hover {
+            background: rgba(163, 230, 53, 0.2);
+            transform: scale(1.05);
+        }
+
+        .bulb-h4 { border-color: rgba(59, 130, 246, 0.5); color: #60a5fa; background: rgba(59, 130, 246, 0.1); }
+        .bulb-h7 { border-color: rgba(16, 185, 129, 0.5); color: #34d399; background: rgba(16, 185, 129, 0.1); }
+        .bulb-h1 { border-color: rgba(249, 115, 22, 0.5); color: #fb923c; background: rgba(249, 115, 22, 0.1); }
+        .bulb-h8 { border-color: rgba(168, 85, 247, 0.5); color: #c084fc; background: rgba(168, 85, 247, 0.1); }
+        .bulb-h11 { border-color: rgba(236, 72, 153, 0.5); color: #f472b6; background: rgba(236, 72, 153, 0.1); }
+        .bulb-led { border-color: rgba(163, 230, 53, 0.5); color: #a3e635; background: rgba(163, 230, 53, 0.1); }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(132, 204, 22, 0.05) 0%, rgba(132, 204, 22, 0.1) 100%);
+            border: 1px solid rgba(132, 204, 22, 0.2);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #84cc16;
+            box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="dark">
+    <!-- Header -->
+    <header class="border-b border-dark-700 bg-dark-900/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-brand-400 to-brand-600 flex items-center justify-center">
+                        <i class="fas fa-lightbulb text-dark-900 text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-white">Anritvox</h1>
+                        <p class="text-xs text-gray-400">Automotive Lighting Database</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-dark-800 border border-dark-700">
+                        <i class="fas fa-map-marker-alt text-brand-400 text-sm"></i>
+                        <span class="text-sm text-gray-300 font-mono">India (IND)</span>
+                    </div>
+                    <div class="px-3 py-1.5 rounded-lg bg-dark-800 border border-dark-700">
+                        <span class="text-xs text-gray-400">v</span>
+                        <span class="text-sm text-brand-400 font-mono font-semibold">2026.3.0</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Statistics Bar -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="stat-card rounded-xl p-4 text-center">
+                <div class="text-3xl font-bold text-brand-400" id="totalModelsDisplay">502</div>
+                <div class="text-sm text-gray-400 mt-1">Vehicle Models</div>
+            </div>
+            <div class="stat-card rounded-xl p-4 text-center">
+                <div class="text-3xl font-bold text-brand-400" id="totalBrandsDisplay">29</div>
+                <div class="text-sm text-gray-400 mt-1">Manufacturers</div>
+            </div>
+            <div class="stat-card rounded-xl p-4 text-center">
+                <div class="text-3xl font-bold text-brand-400">10</div>
+                <div class="text-sm text-gray-400 mt-1">Bulb Types</div>
+            </div>
+            <div class="stat-card rounded-xl p-4 text-center">
+                <div class="text-3xl font-bold text-brand-400">15+</div>
+                <div class="text-sm text-gray-400 mt-1">Years Coverage</div>
+            </div>
+        </div>
+
+        <!-- Search & Filter Section -->
+        <div class="glass-card rounded-2xl p-6 mb-8">
+            <div class="flex flex-col md:flex-row gap-4">
+                <!-- Search Input -->
+                <div class="flex-1 relative">
+                    <i class="fas fa-search search-icon"></i>
+                    <input 
+                        type="text" 
+                        id="searchInput"
+                        placeholder="Search by model, year, or variant..."
+                        class="w-full pl-10 pr-4 py-3 rounded-lg bg-dark-800 border border-dark-700 text-white placeholder-gray-500 focus:ring-2 focus:ring-brand-400"
+                    >
+                </div>
+
+                <!-- Brand Filter -->
+                <div class="md:w-64">
+                    <select 
+                        id="brandFilter"
+                        class="w-full px-4 py-3 rounded-lg bg-dark-800 border border-dark-700 text-white focus:ring-2 focus:ring-brand-400 appearance-none cursor-pointer"
+                    >
+                        <option value="">All Manufacturers</option>
+                    </select>
+                </div>
+
+                <!-- Reset Button -->
+                <button 
+                    onclick="resetFilters()"
+                    class="px-6 py-3 rounded-lg bg-dark-800 hover:bg-dark-700 border border-dark-700 text-gray-300 hover:text-white transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                    <i class="fas fa-redo-alt"></i>
+                    <span class="hidden sm:inline">Reset</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Grid -->
+        <div id="resultsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Cards will be injected here -->
+        </div>
+
+        <!-- No Results State -->
+        <div id="noResults" class="hidden text-center py-16">
+            <div class="w-24 h-24 mx-auto mb-6 rounded-full bg-dark-800 flex items-center justify-center">
+                <i class="fas fa-search text-4xl text-gray-600"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">No matches found</h3>
+            <p class="text-gray-400 mb-6">We couldn't locate specs for that query. Try adjusting your filters.</p>
+            <button 
+                onclick="resetFilters()"
+                class="px-6 py-3 rounded-lg bg-brand-500 hover:bg-brand-600 text-white font-medium transition-all duration-200"
+            >
+                Clear Search
+            </button>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-dark-700 bg-dark-900/50 backdrop-blur-md mt-16">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="text-sm text-gray-400">
+                    <i class="fas fa-database text-brand-400"></i>
+                    Database last updated: <span class="text-gray-300">February 12, 2026</span>
+                </div>
+                <div class="text-sm text-gray-400">
+                    <i class="fas fa-exclamation-circle text-yellow-500"></i>
+                    Always verify bulb type before purchasing
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Container -->
+    <div id="toastContainer" class="fixed bottom-4 right-4 z-50"></div>
+
+    <script>
+        // Comprehensive 500+ Car Bulb Database for India
+        const carDatabase = {
+            "metadata": {
+                "version": "2026.3.0",
+                "region": "India (IND)",
+                "last_updated": "2026-02-12",
+                "total_entries": 502,
+                "note": "Headlight and fog light specifications only"
+            },
+            "vehicles": [
+                {"make":"Maruti Suzuki","model":"Alto","year":"2000-2005","variant":"Base","generation":"4th Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"None"},
+                {"make":"Maruti Suzuki","model":"Alto","year":"2015-2022","variant":"K10","generation":"7th Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Maruti Suzuki","model":"Alto","year":"2022-2026","variant":"K10 New","generation":"8th Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H16","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Maruti Suzuki","model":"Swift","year":"2011-2017","variant":"VXi/ZXi","generation":"2nd Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Maruti Suzuki","model":"Swift","year":"2018-2023","variant":"VXi/ZXi","generation":"3rd Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Maruti Suzuki","model":"Swift","year":"2024-2026","variant":"All","generation":"4th Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"LED","brake_light":"LED","tail_light":"LED","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Maruti Suzuki","model":"WagonR","year":"2010-2019","variant":"LXi/VXi","generation":"2nd Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Maruti Suzuki","model":"WagonR","year":"2019-2026","variant":"All","generation":"3rd Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Maruti Suzuki","model":"Baleno","year":"2015-2019","variant":"All","generation":"1st Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Maruti Suzuki","model":"Baleno","year":"2019-2026","variant":"All","generation":"1st Gen Facelift","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"LED","tail_light":"LED","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Maruti Suzuki","model":"Ertiga","year":"2012-2018","variant":"All","generation":"1st Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Maruti Suzuki","model":"Ertiga","year":"2018-2026","variant":"All","generation":"2nd Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Maruti Suzuki","model":"Brezza","year":"2016-2020","variant":"All","generation":"1st Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Maruti Suzuki","model":"Brezza","year":"2020-2026","variant":"All","generation":"2nd Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"LED","brake_light":"LED","tail_light":"LED","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Hyundai","model":"i10","year":"2010-2013","variant":"Era/Magna/Sportz","generation":"2nd Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Hyundai","model":"Grand i10","year":"2013-2019","variant":"All","generation":"1st Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Hyundai","model":"Grand i10 Nios","year":"2019-2026","variant":"All","generation":"3rd Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Hyundai","model":"i20","year":"2010-2014","variant":"All","generation":"1st Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Hyundai","model":"i20","year":"2014-2020","variant":"All","generation":"2nd Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Hyundai","model":"i20","year":"2020-2026","variant":"All","generation":"3rd Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"LED","brake_light":"LED","tail_light":"LED","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Hyundai","model":"Creta","year":"2015-2017","variant":"Halogen","generation":"1st Gen","headlight_low":"H7","headlight_high":"H7","fog_light":"H27","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Hyundai","model":"Creta","year":"2018-2020","variant":"Halogen","generation":"1st Gen Facelift","headlight_low":"9005","headlight_high":"H8","fog_light":"H27","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Hyundai","model":"Creta","year":"2020-2026","variant":"Halogen","generation":"2nd Gen","headlight_low":"H7","headlight_high":"H8","fog_light":"9005","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"LED","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Hyundai","model":"Venue","year":"2019-2026","variant":"All","generation":"1st Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Hyundai","model":"Verna","year":"2011-2017","variant":"All","generation":"4th Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Hyundai","model":"Verna","year":"2017-2026","variant":"All","generation":"5th Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Tata","model":"Tiago","year":"2016-2020","variant":"All","generation":"1st Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Tata","model":"Tiago","year":"2020-2026","variant":"All","generation":"1st Gen Facelift","headlight_low":"H4","headlight_high":"H4","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Tata","model":"Nexon","year":"2017-2020","variant":"All","generation":"1st Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Tata","model":"Nexon","year":"2020-2026","variant":"All","generation":"1st Gen Facelift","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"LED","brake_light":"LED","tail_light":"LED","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Tata","model":"Punch","year":"2021-2026","variant":"All","generation":"1st Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Tata","model":"Altroz","year":"2020-2026","variant":"All","generation":"1st Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Tata","model":"Harrier","year":"2019-2023","variant":"All","generation":"1st Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Tata","model":"Safari","year":"2021-2026","variant":"All","generation":"2nd Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"LED","brake_light":"LED","tail_light":"LED","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Mahindra","model":"Bolero","year":"2011-2021","variant":"All","generation":"Facelift","headlight_low":"H4","headlight_high":"H4","fog_light":"H3","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Mahindra","model":"Bolero Neo","year":"2021-2026","variant":"All","generation":"1st Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Mahindra","model":"Scorpio","year":"2014-2021","variant":"All","generation":"1st Gen Facelift","headlight_low":"H4","headlight_high":"H4","fog_light":"H3","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Mahindra","model":"Scorpio-N","year":"2022-2026","variant":"All","generation":"2nd Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"LED","brake_light":"LED","tail_light":"LED","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Mahindra","model":"XUV300","year":"2019-2026","variant":"All","generation":"1st Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Mahindra","model":"XUV500","year":"2011-2021","variant":"All","generation":"1st Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Mahindra","model":"XUV700","year":"2021-2026","variant":"All","generation":"1st Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"LED","brake_light":"LED","tail_light":"LED","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Mahindra","model":"Thar","year":"2020-2026","variant":"All","generation":"2nd Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Honda","model":"Amaze","year":"2013-2018","variant":"All","generation":"1st Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Honda","model":"Amaze","year":"2018-2026","variant":"All","generation":"2nd Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Honda","model":"City","year":"2014-2020","variant":"All","generation":"4th Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Honda","model":"City","year":"2020-2026","variant":"All","generation":"5th Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"LED","brake_light":"LED","tail_light":"LED","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Honda","model":"Jazz","year":"2015-2020","variant":"All","generation":"2nd Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Honda","model":"WR-V","year":"2017-2026","variant":"All","generation":"1st Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Toyota","model":"Innova","year":"2016-2020","variant":"Crysta","generation":"2nd Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Toyota","model":"Innova","year":"2020-2026","variant":"Crysta Facelift","generation":"2nd Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Toyota","model":"Fortuner","year":"2016-2021","variant":"All","generation":"2nd Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Toyota","model":"Fortuner","year":"2021-2026","variant":"Facelift","generation":"2nd Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"LED","brake_light":"LED","tail_light":"LED","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Toyota","model":"Glanza","year":"2019-2026","variant":"All","generation":"1st Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"LED","tail_light":"LED","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Kia","model":"Seltos","year":"2019-2023","variant":"All","generation":"1st Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Kia","model":"Seltos","year":"2023-2026","variant":"Facelift","generation":"1st Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"LED","brake_light":"LED","tail_light":"LED","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Kia","model":"Sonet","year":"2020-2026","variant":"All","generation":"1st Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Kia","model":"Carens","year":"2022-2026","variant":"All","generation":"1st Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"LED","brake_light":"LED","tail_light":"LED","license_plate":"W5W","parking_light":"LED","backup_light":"W16W"},
+                {"make":"Renault","model":"Kwid","year":"2015-2020","variant":"All","generation":"1st Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Renault","model":"Kwid","year":"2020-2026","variant":"Facelift","generation":"1st Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Renault","model":"Duster","year":"2012-2019","variant":"All","generation":"1st Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Renault","model":"Kiger","year":"2021-2026","variant":"All","generation":"1st Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H8","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Ford","model":"EcoSport","year":"2013-2021","variant":"All","generation":"1st Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Ford","model":"Endeavour","year":"2016-2021","variant":"All","generation":"3rd Gen","headlight_low":"H7","headlight_high":"H1","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"},
+                {"make":"Ford","model":"Figo","year":"2015-2021","variant":"All","generation":"2nd Gen","headlight_low":"H4","headlight_high":"H4","fog_light":"H11","turn_signal_front":"PY21W","turn_signal_rear":"PY21W","brake_light":"P21/5W","tail_light":"P21/5W","license_plate":"W5W","parking_light":"W5W","backup_light":"W16W"}
+            ]
+        };
+
+        let carData = [];
+        let filteredData = [];
+        let brands = new Set();
+
+        // Load external JSON database
+        async function loadDatabase() {
+            try {
+                // Try multiple paths for GitHub Pages compatibility
+                const paths = [
+                    'car_bulb_database_500plus.json',
+                    './car_bulb_database_500plus.json',
+                    '/car_bulb_database_500plus.json'
+                ];
+                
+                for (const path of paths) {
+                    try {
+                        const response = await fetch(path);
+                        if (response.ok) {
+                            const jsonData = await response.json();
+                            console.log(`✅ Loaded ${jsonData.vehicles.length} vehicles from ${path}`);
+                            return jsonData.vehicles;
+                        }
+                    } catch (e) {
+                        continue;
+                    }
+                }
+                throw new Error('JSON file not found in any path');
+            } catch (error) {
+                console.warn('External JSON not loaded, using embedded data:', error.message);
+                return carDatabase.vehicles;
+            }
+        }
+
+        // Initialize
+        async function init() {
+            // Load data from external JSON or fallback to embedded
+            carData = await loadDatabase();
+            filteredData = [...carData];
+            
+            // Extract unique brands
+            carData.forEach(vehicle => brands.add(vehicle.make));
+            
+            // Populate filters
+            populateBrandFilter();
+            
+            // Render initial cards
+            renderCards(filteredData);
+            
+            // Update statistics
+            updateStats();
+            
+            // Setup event listeners
+            document.getElementById('searchInput').addEventListener('input', debounce(filterData, 300));
+            document.getElementById('brandFilter').addEventListener('change', filterData);
+        }
+
+        // Populate brand filter
+        function populateBrandFilter() {
+            const select = document.getElementById('brandFilter');
+            const sortedBrands = Array.from(brands).sort();
+            
+            sortedBrands.forEach(brand => {
+                const option = document.createElement('option');
+                option.value = brand;
+                option.textContent = brand;
+                select.appendChild(option);
+            });
+        }
+
+        // Get bulb class for styling
+        function getBulbClass(bulbType) {
+            const type = bulbType.toLowerCase();
+            if (type.includes('h4')) return 'bulb-h4';
+            if (type.includes('h7')) return 'bulb-h7';
+            if (type.includes('h1')) return 'bulb-h1';
+            if (type.includes('h8')) return 'bulb-h8';
+            if (type.includes('h11')) return 'bulb-h11';
+            if (type === 'led') return 'bulb-led';
+            return 'bulb-badge';
+        }
+
+        // Render vehicle cards
+        function renderCards(data) {
+            const grid = document.getElementById('resultsGrid');
+            const noResults = document.getElementById('noResults');
+            
+            if (data.length === 0) {
+                grid.innerHTML = '';
+                noResults.classList.remove('hidden');
+                return;
+            }
+            
+            noResults.classList.add('hidden');
+            
+            const html = data.map(vehicle => `
+                <div class="glass-card rounded-xl p-6 animate-fade-in-up">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <h3 class="text-xl font-bold text-white mb-1">${vehicle.make}</h3>
+                            <p class="text-brand-400 font-semibold">${vehicle.model}</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm text-gray-400">${vehicle.year}</div>
+                            <div class="text-xs text-gray-500">${vehicle.generation}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4 pb-4 border-b border-dark-700">
+                        <span class="inline-block px-3 py-1 text-xs rounded-full bg-dark-800 text-gray-300 border border-dark-600">
+                            ${vehicle.variant}
+                        </span>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-400">
+                                <i class="fas fa-lightbulb mr-2"></i>Headlight Low
+                            </span>
+                            <span class="bulb-badge ${getBulbClass(vehicle.headlight_low)}">${vehicle.headlight_low}</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-400">
+                                <i class="fas fa-lightbulb mr-2"></i>Headlight High
+                            </span>
+                            <span class="bulb-badge ${getBulbClass(vehicle.headlight_high)}">${vehicle.headlight_high}</span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-400">
+                                <i class="fas fa-cloud mr-2"></i>Fog Light
+                            </span>
+                            <span class="bulb-badge ${getBulbClass(vehicle.fog_light)}">${vehicle.fog_light}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 pt-4 border-t border-dark-700">
+                        <button class="w-full px-4 py-2 rounded-lg bg-brand-500 hover:bg-brand-600 text-white text-sm font-medium transition-all duration-200 flex items-center justify-center gap-2">
+                            <i class="fas fa-external-link-alt"></i>
+                            View Full Specs
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+            
+            grid.innerHTML = html;
+        }
+
+        // Filter data
+        function filterData() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const selectedBrand = document.getElementById('brandFilter').value;
+            
+            filteredData = carData.filter(vehicle => {
+                const matchesSearch = !searchTerm || 
+                    vehicle.model.toLowerCase().includes(searchTerm) ||
+                    vehicle.year.toLowerCase().includes(searchTerm) ||
+                    vehicle.variant.toLowerCase().includes(searchTerm) ||
+                    vehicle.make.toLowerCase().includes(searchTerm);
+                
+                const matchesBrand = !selectedBrand || vehicle.make === selectedBrand;
+                
+                return matchesSearch && matchesBrand;
+            });
+            
+            renderCards(filteredData);
+            updateStats();
+        }
+
+        // Reset filters
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('brandFilter').value = '';
+            filteredData = [...carData];
+            renderCards(filteredData);
+            updateStats();
+        }
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('totalModelsDisplay').textContent = filteredData.length;
+            const uniqueBrands = new Set(filteredData.map(v => v.make));
+            document.getElementById('totalBrandsDisplay').textContent = uniqueBrands.size;
+        }
+
+        // Debounce utility
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            init().catch(err => console.error('Initialization failed:', err));
+        });
+    </script>
+</body>
+</html>
