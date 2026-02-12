@@ -336,29 +336,20 @@
 
         // Load external JSON database
         async function loadDatabase() {
+            console.log('🔄 Attempting to load external database...');
             try {
-                // Try multiple paths for GitHub Pages compatibility
-                const paths = [
-                    'car_bulb_database_500plus.json',
-                    './car_bulb_database_500plus.json',
-                    '/car_bulb_database_500plus.json'
-                ];
-                
-                for (const path of paths) {
-                    try {
-                        const response = await fetch(path);
-                        if (response.ok) {
-                            const jsonData = await response.json();
-                            console.log(`✅ Loaded ${jsonData.vehicles.length} vehicles from ${path}`);
-                            return jsonData.vehicles;
-                        }
-                    } catch (e) {
-                        continue;
+                const response = await fetch('car_bulb_database_500plus.json');
+                if (response.ok) {
+                    const jsonData = await response.json();
+                    if (jsonData && jsonData.vehicles && jsonData.vehicles.length > 0) {
+                        console.log(`✅ Successfully loaded ${jsonData.vehicles.length} vehicles from JSON file`);
+                        return jsonData.vehicles;
                     }
                 }
-                throw new Error('JSON file not found in any path');
+                throw new Error('Invalid JSON structure');
             } catch (error) {
-                console.warn('External JSON not loaded, using embedded data:', error.message);
+                console.warn('⚠️ External JSON not loaded, using embedded fallback data');
+                console.warn('Error details:', error.message);
                 return carDatabase.vehicles;
             }
         }
