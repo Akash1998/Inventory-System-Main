@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Anritvox v9.0 [IRONCLAD]</title>
+    
+    <!-- FONTS & LIBS -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rajdhani:wght@600;700&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- PDF ENGINE -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    
+    <!-- EXCEL & ARCHIVE ENGINES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+    <style>
+        :root {
+            /* THEME: PROFESSIONAL OLIVE */
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --bg-sidebar: #2c3325;
+            
+            --olive-pri: #556B2F;
+            --olive-dark: #3a4a20;
+            --olive-light: #f7fee7;
+            
+            --text-main: #1e293b;
+            --text-mute: #64748b;
+            --border: 1px solid #e2e8f0;
+            
+            --font-ui: 'Inter', sans-serif;
+            --font-head: 'Rajdhani', sans-serif;
+            --font-mono: 'Roboto Mono', monospace;
+            
+            --rad: 8px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; outline:none; -webkit-tap-highlight-color:transparent; }
+        
+        body { background: var(--bg-body); color: var(--text-main); font-family: var(--font-ui); height: 100vh; overflow: hidden; display: flex; font-size: 13px; }
+
+        /* UTILS */
+        .hidden { display:none !important; }
+        .flex { display:flex; gap:10px; align-items:center; }
+        .flex-col { display:flex; flex-direction:column; gap:10px; }
+        .between { justify-content:space-between; }
+        .grid-2 { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:15px; }
+        .grid-4 { display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:15px; }
+        .full-w { width:100%; }
+        .text-sm { font-size: 11px; color: var(--text-mute); }
+        .bold { font-weight: 600; }
+        .mt-2 { margin-top: 15px; } .mb-2 { margin-bottom: 15px; }
+        .scroll-y { overflow-y: auto; max-height: 100%; }
+
+        /* COMPONENTS */
+        .card { background: var(--bg-card); border: var(--border); border-radius: var(--rad); padding: 20px; box-shadow: var(--shadow); }
+        h3 { font-family: var(--font-head); font-weight: 700; font-size: 20px; text-transform: uppercase; margin-bottom: 20px; color: var(--olive-pri); border-bottom: 1px solid #f1f5f9; padding-bottom: 10px; display:flex; justify-content:space-between; align-items:center; letter-spacing: 0.5px; }
+
+        /* BUTTONS */
+        .btn { padding: 9px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
+        .btn-pri { background: var(--olive-pri); color: #fff; box-shadow: 0 2px 4px rgba(85, 107, 47, 0.3); }
+        .btn-pri:hover { background: var(--olive-dark); transform:translateY(-1px); }
+        .btn-sec { background: #fff; border: 1px solid #cbd5e1; color: var(--text-main); }
+        .btn-sec:hover { background: #f1f5f9; border-color: #94a3b8; }
+        .btn-dan { background: #fee2e2; color: #b91c1c; border: 1px solid #fca5a5; }
+        .btn-org { background: #fff7ed; color: #c2410c; border: 1px solid #fdba74; }
+        .btn-sm { padding: 5px 10px; font-size: 11px; }
+
+        /* INPUTS */
+        input, select, textarea { width: 100%; background: #fff; border: 1px solid #cbd5e1; color: var(--text-main); padding: 10px; border-radius: 6px; font-family: var(--font-ui); font-size: 13px; margin-bottom: 8px; transition: 0.2s; }
+        input:focus, select:focus { border-color: var(--olive-pri); box-shadow: 0 0 0 3px rgba(85, 107, 47, 0.1); }
+        label { font-size:11px; color: var(--text-mute); font-weight:700; margin:0 0 4px 1px; display:block; text-transform:uppercase; letter-spacing: 0.5px; }
+
+        /* TABLES - DESKTOP OPTIMIZED */
+        .table-wrap { overflow: auto; border: var(--border); border-radius: 6px; background: #fff; height: 100%; }
+        table { width: 100%; border-collapse: collapse; white-space: nowrap; font-size: 13px; }
+        th { text-align: left; padding: 12px 16px; background: #f1f5f9; color: var(--text-mute); font-weight: 700; border-bottom: 1px solid #e2e8f0; position: sticky; top: 0; z-index: 10; cursor: pointer; user-select: none; }
+        th:hover { background: #e2e8f0; color: var(--text-main); }
+        td { padding: 10px 16px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; }
+        tr:hover td { background: #f8fafc; }
+        tr:nth-child(even) { background-color: #fafafa; } /* Zebra Striping */
+
+        .rep-thumb { width: 40px; height: 40px; object-fit: cover; border-radius: 4px; border: 1px solid #cbd5e1; cursor: pointer; transition: transform 0.2s; }
+        .rep-thumb:hover { transform: scale(3); border-color: var(--olive-pri); z-index: 100; position: relative; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+        /* STATUS PILLS */
+        .pill { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+        .p-green { background: #dcfce7; color: #15803d; }
+        .p-blue { background: #dbeafe; color: #1e40af; }
+        .p-red { background: #fee2e2; color: #991b1b; }
+        .p-gray { background: #f1f5f9; color: #64748b; }
+
+        /* SPLIT SCREEN LAYOUT */
+        .split-view { display: grid; grid-template-columns: 280px 1fr; gap: 20px; height: 100%; }
+        .split-sidebar { display: flex; flex-direction: column; gap: 15px; border-right: 1px solid #e2e8f0; padding-right: 20px; overflow-y: auto; }
+        .split-content { display: flex; flex-direction: column; overflow: hidden; height: 100%; }
+
+        /* GALLERY GRID */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; padding: 10px; }
+        .gal-item { border: 1px solid #e2e8f0; border-radius: 6px; overflow: hidden; background: #fff; cursor: pointer; transition: 0.2s; position: relative; }
+        .gal-item:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+        .gal-img { width: 100%; height: 120px; object-fit: cover; background: #f1f5f9; }
+        .gal-cap { padding: 8px; font-size: 11px; color: var(--text-mute); border-top: 1px solid #f1f5f9; }
+        .gal-dl { position: absolute; bottom: 5px; right: 5px; background: rgba(0,0,0,0.5); color: #fff; border-radius: 4px; padding: 4px; z-index: 10; cursor: pointer; }
+        .gal-dl:hover { background: var(--olive-pri); }
+
+        /* APP SHELL */
+        #app { display: none; width: 100%; height: 100%; }
+        .sidebar { width: 240px; background: var(--bg-sidebar); display: flex; flex-direction: column; padding: 20px 0; flex-shrink: 0; color: #e2e8f0; box-shadow: 4px 0 10px rgba(0,0,0,0.05); z-index: 20; }
+        .brand { font-family: var(--font-head); font-size: 24px; font-weight: 700; margin-bottom: 30px; display: flex; align-items: center; padding: 0 20px; color: #fff; letter-spacing: 1px; gap: 12px; }
+        .brand img { width: 32px; height: 32px; object-fit: contain; border-radius: 6px; background: #fff; padding: 2px; }
+        
+        .nav-head { font-size: 11px; color: #94a3b8; text-transform: uppercase; margin: 20px 0 8px 20px; font-weight: 700; letter-spacing: 0.5px; }
+        .nav-item { height: 44px; display: flex; align-items: center; color: #cbd5e1; cursor: pointer; padding: 0 20px; font-size: 13px; border-left: 4px solid transparent; transition: 0.2s; }
+        .nav-item:hover { background: rgba(255,255,255,0.05); color: #fff; }
+        .nav-item.active { background: rgba(85, 107, 47, 0.4); color: #fff; border-left-color: #bef264; font-weight: 600; }
+
+        .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .top-bar { height: 60px; padding: 0 30px; display: flex; align-items: center; justify-content: space-between; background: #fff; border-bottom: var(--border); }
+        .content { padding: 30px; overflow-y: auto; height: calc(100% - 60px); background: #f8fafc; }
+
+        .view { display: none; height: 100%; } .view.active { display: block; }
+
+        /* MODALS & LOGINS */
+        .modal-mask { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 5000; display: none; align-items: center; justify-content: center; backdrop-filter: blur(2px); }
+        .modal { width: 500px; max-width: 95%; background: #fff; border-radius: 12px; padding: 25px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; animation: slideUp 0.3s; }
+        
+        #login-screen { position: fixed; inset: 0; background: var(--bg-sidebar); z-index: 10000; display: flex; align-items: center; justify-content: center; }
+        
+        @keyframes slideUp { from { transform:translateY(20px); opacity:0; } to { transform:translateY(0); opacity:1; } }
+        @media (max-width: 1024px) { .sidebar { width: 70px; } .brand span, .nav-item span, .nav-head { display: none; } .brand { padding: 0 18px; } .split-view { grid-template-columns: 1fr; grid-template-rows: auto 1fr; } .split-sidebar { border-right: none; border-bottom: 1px solid #e2e8f0; padding-bottom: 15px; margin-bottom: 15px; } }
+    </style>
+</head>
+<body>
+    <div id="toast-feed" style="position:fixed; bottom:30px; right:30px; z-index:9000;"></div>
+
+    <!-- LOGIN -->
+    <div id="login-screen">
+        <div style="width:350px; padding:40px; background:#fff; border-radius:12px; text-align:center; box-shadow: 0 20px 50px rgba(0,0,0,0.3);">
+            <h1 style="font-family:var(--font-head); color:var(--olive-pri); margin-bottom:5px; font-size:32px;">ANRITVOX</h1>
+            <p style="font-size:11px; color:var(--text-mute); margin-bottom:30px; letter-spacing:2px; font-weight:600;">ENTERPRISE EDITION v9.0</p>
+            <input id="l-u" placeholder="Agent ID" style="text-align:center; background:#f8fafc;">
+            <input type="password" id="l-p" placeholder="Passcode" style="text-align:center; margin-bottom:20px; background:#f8fafc;">
+            <button class="btn btn-pri full-w" style="height:45px; font-size:14px;" onclick="AV.Auth.login()">ACCESS TERMINAL</button>
+            <div id="l-msg" style="color:#dc2626; font-size:12px; margin-top:15px; font-weight:600;"></div>
+        </div>
+    </div>
+
+    <div id="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <img id="sb-logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=">
+                <span>ANRITVOX</span>
+            </div>
+            
+            <div class="nav-head">Operate</div>
+            <div class="nav-item active" onclick="AV.UI.nav('dash')"><i class="ph ph-squares-four" style="margin-right:12px; font-size:18px;"></i><span>Dashboard</span></div>
+            <div class="nav-item" onclick="AV.UI.nav('inv')"><i class="ph ph-box-arrow-up" style="margin-right:12px; font-size:18px;"></i><span>Inventory</span></div>
+            <div class="nav-item" onclick="AV.UI.nav('sale')"><i class="ph ph-shopping-cart" style="margin-right:12px; font-size:18px;"></i><span>POS Terminal</span></div>
+            
+            <div class="nav-head">Manage</div>
+            <div class="nav-item" onclick="AV.UI.nav('trans')"><i class="ph ph-truck" style="margin-right:12px; font-size:18px;"></i><span>Transfers</span></div>
+            <div class="nav-item" onclick="AV.UI.nav('ret')"><i class="ph ph-arrow-u-up-left" style="margin-right:12px; font-size:18px;"></i><span>Returns</span></div>
+            <div class="nav-item" onclick="AV.UI.nav('dist')"><i class="ph ph-users" style="margin-right:12px; font-size:18px;"></i><span>Distributors</span></div>
+            <div class="nav-item" onclick="AV.UI.nav('map')"><i class="ph ph-storefront" style="margin-right:12px; font-size:18px;"></i><span>Customers</span></div>
+            
+            <div class="nav-head">Intelligence</div>
+            <div class="nav-item" onclick="AV.UI.nav('rep')"><i class="ph ph-chart-line-up" style="margin-right:12px; font-size:18px;"></i><span>Reports & Gallery</span></div>
+            <div class="nav-item" onclick="AV.UI.nav('logs')"><i class="ph ph-scroll" style="margin-right:12px; font-size:18px;"></i><span>System Logs</span></div>
+            
+            <div class="nav-head">Admin</div>
+            <div class="nav-item" onclick="AV.UI.nav('data')"><i class="ph ph-gear" style="margin-right:12px; font-size:18px;"></i><span>Data & Archive</span></div>
+            <div class="nav-item" onclick="AV.Auth.logout()" style="margin-top:auto; color:#fca5a5;"><i class="ph ph-power" style="margin-right:12px; font-size:18px;"></i><span>Logout</span></div>
+        </aside>
+
+        <main class="main">
+            <header class="top-bar">
+                <div class="flex-col" style="gap:2px;">
+                    <h2 style="font-size:18px; font-weight:700; color:var(--olive-pri); letter-spacing:0.5px;" id="page-title">DASHBOARD</h2>
+                    <span style="font-size:10px; color:var(--text-mute);">SYSTEM ONLINE</span>
+                </div>
+                <div class="flex">
+                    <div style="text-align:right;">
+                        <div class="text-sm bold" id="sys-user">Admin</div>
+                        <div style="font-size:10px; color:var(--text-mute);" id="sys-date"></div>
+                    </div>
+                    <div style="width:36px; height:36px; background:var(--olive-pri); border-radius:50%; color:#fff; display:flex; align-items:center; justify-content:center; font-weight:bold;">A</div>
+                </div>
+            </header>
+
+            <div class="content">
+                <!-- DASHBOARD -->
+                <div id="v-dash" class="view active">
+                    <div class="flex between mb-2">
+                        <h3 style="border:none; margin:0; padding:0;">Executive Overview</h3>
+                        <button class="btn btn-sec btn-sm" onclick="AV.UI.modal('m-dash-set')"><i class="ph-bold ph-sliders"></i> Customize View</button>
+                    </div>
+                    
+                    <div class="grid-4 mb-2">
+                        <div class="stat-card">
+                            <div class="stat-lbl">Revenue Today</div>
+                            <div class="stat-val" id="d-sale-today">₹0</div>
+                            <div class="stat-sub" style="color:var(--olive-pri);">Live Sales Data</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-lbl">Dead Stock</div>
+                            <div class="stat-val" style="color:#dc2626" id="d-dead-stock">0</div>
+                            <div class="stat-sub">Inactive >30 Days</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-lbl">Low Stock Alerts</div>
+                            <div class="stat-val" style="color:#d97706" id="d-low-alert">0</div>
+                            <div class="stat-sub">Restock Required</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-lbl">Total Inventory</div>
+                            <div class="stat-val" id="d-tot-items">0</div>
+                            <div class="stat-sub">Active SKUs</div>
+                        </div>
+                    </div>
+
+                    <!-- Storage Health Indicator on Dash -->
+                    <div class="card mb-2" style="padding:15px; display:flex; align-items:center; gap:20px;">
+                        <div class="text-sm bold" style="white-space:nowrap;">STORAGE HEALTH:</div>
+                        <div style="flex:1; height:8px; background:#e2e8f0; border-radius:4px; overflow:hidden;">
+                            <div id="d-str-bar" style="height:100%; width:0%; background:var(--olive-pri); transition:0.3s;"></div>
+                        </div>
+                        <div class="text-sm bold" id="d-str-txt">0%</div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="card">
+                            <h3><i class="ph-bold ph-trend-up"></i> Top Movers</h3>
+                            <table class="full-w" id="t-top-sell"><thead><tr><th onclick="AV.UI.sort('t-top-sell',0)">Item</th><th onclick="AV.UI.sort('t-top-sell',1)">Sold</th></tr></thead><tbody></tbody></table>
+                        </div>
+                        <div class="card">
+                            <h3><i class="ph-bold ph-trend-down"></i> Dead Stock Candidates</h3>
+                            <table class="full-w" id="t-dead-sell"><thead><tr><th onclick="AV.UI.sort('t-dead-sell',0)">Item</th><th onclick="AV.UI.sort('t-dead-sell',1)">Added</th></tr></thead><tbody></tbody></table>
+                        </div>
+                    </div>
+
+                    <div class="grid-4 mt-2" id="dash-cats"></div>
+                </div>
+
+                <!-- INVENTORY -->
+                <div id="v-inv" class="view">
+                    <div class="card" style="height:100%; display:flex; flex-direction:column;">
+                        <div class="flex between mb-2">
+                            <h3 style="border:none; margin:0; padding:0;">Master Inventory</h3>
+                            <div class="flex">
+                                <button class="btn btn-sec btn-sm" onclick="AV.UI.modal('m-cats')">Categories</button>
+                                <button class="btn btn-sec btn-sm" onclick="AV.UI.modal('m-imp-stock')"><i class="ph-bold ph-upload-simple"></i> Import Excel</button>
+                                <button class="btn btn-pri btn-sm" onclick="AV.Inv.newItem()"><i class="ph-bold ph-plus"></i> Add Item</button>
+                            </div>
+                        </div>
+                        <div class="flex mb-2">
+                            <input id="inv-s" placeholder="Search Inventory by Name or Category..." onkeyup="AV.Inv.render()" style="margin:0;">
+                            <select id="inv-filter" style="width:200px; margin:0;" onchange="AV.Inv.render()"></select>
+                        </div>
+                        <div class="table-wrap">
+                            <table id="t-inv">
+                                <thead><tr>
+                                    <th onclick="AV.UI.sort('t-inv',0)">Name</th>
+                                    <th onclick="AV.UI.sort('t-inv',1)">Category</th>
+                                    <th onclick="AV.UI.sort('t-inv',2)">Qty</th>
+                                    <th onclick="AV.UI.sort('t-inv',3)">Price</th>
+                                    <th>Action</th>
+                                </tr></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SALES -->
+                <div id="v-sale" class="view">
+                    <div class="grid-2" style="grid-template-columns: 2fr 1fr; height:100%;">
+                        <div class="flex-col" style="height:100%;">
+                            <div class="card">
+                                <h3><i class="ph-bold ph-user-focus"></i> Customer</h3>
+                                <div class="flex">
+                                    <div class="full-w" style="position:relative;">
+                                        <input id="sl-c" placeholder="Search Customer..." onkeyup="AV.Sale.sug(this.value)">
+                                        <div id="sl-sug" class="card hidden" style="position:absolute; top:100%; left:0; width:100%; z-index:100; padding:5px; box-shadow:var(--shadow);"></div>
+                                    </div>
+                                    <button class="btn btn-sec" onclick="AV.Map.newCust()">New</button>
+                                </div>
+                                <div id="sl-c-info" class="hidden" style="background:#f0fdf4; padding:12px; border:1px solid #bbf7d0; border-radius:6px; margin-top:10px;">
+                                    <div class="flex between">
+                                        <span class="bold" style="color:#166534; font-size:14px;" id="sl-c-name"></span>
+                                        <span class="text-sm font-mono" id="sl-c-phone"></span>
+                                    </div>
+                                    <div class="text-sm mt-2">Current Balance: <span id="sl-c-bal" class="bold" style="color:#d97706">₹0</span></div>
+                                </div>
+                            </div>
+                            <div class="card" style="flex:1;">
+                                <h3><i class="ph-bold ph-barcode"></i> Add Items</h3>
+                                <div class="flex">
+                                    <select id="sl-src" style="width:140px;" onchange="AV.Sale.loadItems()">
+                                        <option value="WH">Warehouse</option>
+                                    </select>
+                                    <select id="sl-item" onchange="AV.Sale.setPrice()"></select>
+                                </div>
+                                <div class="flex mt-2">
+                                    <input type="number" id="sl-qty" placeholder="Qty" value="1" min="1" style="width:100px;">
+                                    <input type="number" id="sl-price" placeholder="Price">
+                                    <button class="btn btn-pri" onclick="AV.Sale.add()"><i class="ph-bold ph-plus"></i> Add</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card flex-col" style="border:2px solid var(--olive-pri); height:100%;">
+                            <h3><i class="ph-bold ph-receipt"></i> Invoice</h3>
+                            <div class="table-wrap" style="flex:1; border:none; border-bottom:1px solid #e2e8f0;">
+                                <table id="t-cart"><thead><tr><th>Item</th><th>Q</th><th>Total</th><th></th></tr></thead><tbody></tbody></table>
+                            </div>
+                            <div class="flex between" style="font-size:24px; font-weight:700; color:var(--olive-pri); font-family:var(--font-head);">
+                                <span>Total</span><span id="sl-total">₹0</span>
+                            </div>
+                            <button class="btn btn-pri full-w" style="height:50px; font-size:16px;" onclick="AV.Sale.checkout()">Complete & Share</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TRANSFERS -->
+                <div id="v-trans" class="view">
+                    <div class="card" style="max-width:500px; margin:0 auto;">
+                        <h3>Transfer Stock</h3>
+                        <label>To Distributor</label><select id="tf-dist"></select>
+                        <label>Item</label><select id="tf-item"></select>
+                        <label>Qty</label><input type="number" id="tf-qty" value="1" min="1">
+                        <button class="btn btn-pri full-w mt-2" onclick="AV.Trans.exec()">Transfer</button>
+                    </div>
+                </div>
+
+                <!-- RETURNS -->
+                <div id="v-ret" class="view">
+                    <div class="card" style="max-width:500px; margin:0 auto;">
+                        <h3>Return Stock</h3>
+                        <label>From Distributor</label><select id="rt-dist" onchange="AV.Ret.load()"></select>
+                        <label>Item</label><select id="rt-item"></select>
+                        <label>Qty</label><input type="number" id="rt-qty" value="1" min="1">
+                        <div class="grid-2 mt-2">
+                            <button class="btn btn-sec" onclick="AV.Ret.exec('GOOD')">Restock (Good)</button>
+                            <button class="btn btn-dan" onclick="AV.Ret.exec('BAD')">Scrap (Bad)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DISTRIBUTORS -->
+                <div id="v-dist" class="view">
+                    <div class="flex between mb-2">
+                        <h3>Distributor Network</h3>
+                        <button class="btn btn-pri" onclick="AV.UI.modal('m-add-dist')">Add New Node</button>
+                    </div>
+                    <div id="dist-grid" class="grid-2"></div>
+                </div>
+
+                <!-- CUSTOMERS -->
+                <div id="v-map" class="view">
+                    <div class="card" style="height:100%; display:flex; flex-direction:column;">
+                        <div class="flex between mb-2">
+                            <h3 style="border:none; margin:0; padding:0;">Customer Database</h3>
+                            <button class="btn btn-pri" onclick="AV.Map.newCust()">Add Profile</button>
+                        </div>
+                        <div class="table-wrap">
+                            <table id="t-cust">
+                                <thead><tr>
+                                    <th onclick="AV.UI.sort('t-cust',0)">Name</th>
+                                    <th onclick="AV.UI.sort('t-cust',1)">Phone</th>
+                                    <th onclick="AV.UI.sort('t-cust',2)">Balance</th>
+                                    <th>Action</th>
+                                </tr></thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- REPORT CENTER (SPLIT VIEW) -->
+                <div id="v-rep" class="view">
+                    <div class="card" style="height:100%; padding:0; overflow:hidden;">
+                        <div class="split-view">
+                            <!-- Left Sidebar Controls -->
+                            <div class="split-sidebar" style="padding:20px; background:#f8fafc;">
+                                <h3>Time Machine</h3>
+                                <label>Select Date</label>
+                                <input type="date" id="rep-date" onchange="AV.Rep.gen()">
+                                
+                                <div style="margin-top:20px;">
+                                    <div class="stat-lbl">REVENUE</div>
+                                    <div class="stat-val" id="rep-rev">₹0</div>
+                                </div>
+                                <div>
+                                    <div class="stat-lbl">ITEMS SOLD</div>
+                                    <div class="stat-val" id="rep-items">0</div>
+                                </div>
+                                <div>
+                                    <div class="stat-lbl">TRANSFERS</div>
+                                    <div class="stat-val" id="rep-trans">0</div>
+                                </div>
+                                <div>
+                                    <div class="stat-lbl">LOGS</div>
+                                    <div class="stat-val" id="rep-logs">0</div>
+                                </div>
+                                
+                                <hr style="border:none; border-top:1px solid #e2e8f0; margin:10px 0;">
+                                
+                                <button class="btn btn-sec full-w" onclick="AV.Rep.toggleMode()"><i class="ph-bold ph-images"></i> Toggle Gallery</button>
+                                <button class="btn btn-sec full-w" onclick="AV.Rep.expExcel()"><i class="ph-bold ph-file-xls"></i> Export Excel</button>
+                            </div>
+
+                            <!-- Right Content Area -->
+                            <div class="split-content" style="padding:20px;">
+                                <!-- Table Mode -->
+                                <div id="rep-tbl-view" class="table-wrap">
+                                    <table id="t-rep">
+                                        <thead><tr>
+                                            <th onclick="AV.UI.sort('t-rep',0)">Time</th>
+                                            <th onclick="AV.UI.sort('t-rep',1)">Type</th>
+                                            <th onclick="AV.UI.sort('t-rep',2)">Details</th>
+                                            <th onclick="AV.UI.sort('t-rep',3)">Amount</th>
+                                            <th>Proof</th>
+                                        </tr></thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                                <!-- Gallery Mode -->
+                                <div id="rep-gal-view" class="hidden scroll-y">
+                                    <div id="rep-gal-grid" class="gallery-grid"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LOGS -->
+                <div id="v-logs" class="view">
+                    <div class="card" style="height:100%; display:flex; flex-direction:column;">
+                        <div class="flex between mb-2">
+                            <h3 style="border:none; margin:0; padding:0;">System Logs</h3>
+                            <button class="btn btn-sec btn-sm" onclick="AV.Sys.expLogsExcel()">Export Logs (.xlsx)</button>
+                        </div>
+                        <div class="table-wrap">
+                            <table id="t-logs"><thead><tr><th>Time</th><th>Action</th><th>Details</th></tr></thead><tbody></tbody></table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DATA -->
+                <div id="v-data" class="view">
+                    <div class="card" style="max-width:600px;">
+                        <h3>System Data & Archive</h3>
+                        
+                        <div class="mb-2 flex between" style="border:1px dashed #cbd5e1; padding:15px; border-radius:6px;">
+                            <div class="flex">
+                                <img id="logo-prev" style="width:50px; height:50px; border:1px solid #eee;">
+                                <div class="flex-col" style="gap:2px;">
+                                    <label>Invoice Logo</label>
+                                    <input type="file" onchange="AV.Sys.setLogo(this)">
+                                </div>
+                            </div>
+                            <button class="btn btn-org btn-sm" onclick="AV.UI.modal('m-security')"><i class="ph-bold ph-lock-key"></i> Security</button>
+                        </div>
+
+                        <!-- Storage Monitor -->
+                        <div class="mb-2" style="background:#f8fafc; padding:15px; border-radius:6px;">
+                            <div class="flex between mb-2">
+                                <label style="margin:0;">Storage Health</label>
+                                <span class="bold text-sm" id="str-use">0%</span>
+                            </div>
+                            <div style="width:100%; height:8px; background:#e2e8f0; border-radius:4px; overflow:hidden;">
+                                <div id="str-bar" style="height:100%; width:0%; background:var(--olive-pri); transition:0.3s;"></div>
+                            </div>
+                            <p class="text-sm mt-2" style="color:var(--text-mute);">When storage is full, use the Archive Tool below.</p>
+                        </div>
+
+                        <!-- ARCHIVE ZONE -->
+                        <div class="mb-2" style="background:#fff7ed; padding:15px; border:1px solid #fed7aa; border-radius:6px;">
+                            <label style="color:#c2410c;"><i class="ph-bold ph-archive"></i> Storage Cleaner (Archive Images)</label>
+                            <p class="text-sm mb-2" style="color:#9a3412;">Downloads all payment proofs as a ZIP file to your computer, then removes them from the browser to free up space. Financial data remains safe.</p>
+                            <button class="btn btn-org full-w" onclick="AV.Sys.archiveImages()">Archive Images & Purge Storage</button>
+                        </div>
+
+                        <label>Backup & Export (Excel/JSON)</label>
+                        <div class="grid-2 mb-2">
+                            <button class="btn btn-pri full-w" onclick="AV.Sys.bkp()">Full System Backup (JSON)</button>
+                            <button class="btn btn-sec full-w" onclick="AV.Sys.bkpDataOnly()">Data-Only Backup (Lite JSON)</button>
+                        </div>
+                        <div class="grid-2 mb-2">
+                            <button class="btn btn-sec full-w" onclick="AV.Sys.exportSalesExcel()">Export Sales (.xlsx)</button>
+                            <button class="btn btn-sec full-w" onclick="AV.Sys.exportStockExcel()">Export Stock (.xlsx)</button>
+                        </div>
+
+                        <hr style="margin:20px 0; border:none; border-top:1px solid #e2e8f0;">
+                        <label>Restore / Reset</label>
+                        <input type="file" onchange="AV.Sys.rst(this)">
+                        
+                        <button class="btn btn-dan full-w mt-2" onclick="localStorage.clear();location.reload()">Factory Reset</button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- MODALS -->
+    
+    <div id="m-add-item" class="modal-mask"><div class="modal">
+        <h3>Add Item</h3>
+        <label>Category</label><select id="ni-cat"></select>
+        <label>Name</label><input id="ni-n">
+        <label>Qty</label><input type="number" id="ni-q" min="0">
+        <label>Price</label><input type="number" id="ni-p" min="0">
+        <div class="flex mt-2"><button class="btn btn-pri full-w" onclick="AV.Inv.add()">Save</button><button class="btn btn-sec full-w" onclick="AV.UI.closeM('m-add-item')">Cancel</button></div>
+    </div></div>
+
+    <div id="m-imp-stock" class="modal-mask"><div class="modal">
+        <h3>Import Stock from Excel</h3>
+        <p class="text-sm mb-2">Upload .xlsx with columns: Name, Category, Qty, Price</p>
+        <input type="file" id="imp-file" accept=".xlsx, .xls">
+        <div class="flex mt-2">
+            <button class="btn btn-pri full-w" onclick="AV.Inv.importExcel()">Import</button>
+            <button class="btn btn-sec full-w" onclick="AV.UI.closeM('m-imp-stock')">Cancel</button>
+        </div>
+    </div></div>
+
+    <div id="m-add-cust" class="modal-mask"><div class="modal">
+        <h3>Customer Profile</h3>
+        <label>Name</label><input id="nc-n">
+        <label>Phone</label><input id="nc-p">
+        <label>Location</label><input id="nc-l">
+        <label>Type</label><select id="nc-t"><option value="Walk-in">Walk-in</option><option value="Shop">Shop</option></select>
+        <div class="flex mt-2"><button class="btn btn-pri full-w" onclick="AV.Map.add()">Save Profile</button><button class="btn btn-sec full-w" onclick="AV.UI.closeM('m-add-cust')">Cancel</button></div>
+    </div></div>
+
+    <div id="m-add-dist" class="modal-mask"><div class="modal">
+        <h3>Distributor</h3>
+        <label>Name</label><input id="nd-n">
+        <label>Phone</label><input id="nd-p">
+        <div class="flex mt-2"><button class="btn btn-pri full-w" onclick="AV.Dist.add()">Save</button><button class="btn btn-sec full-w" onclick="AV.UI.closeM('m-add-dist')">Cancel</button></div>
+    </div></div>
+
+    <div id="m-credit" class="modal-mask"><div class="modal">
+        <h3>Transaction Manager</h3>
+        <div style="background:#fefce8; padding:12px; margin-bottom:15px; border:1px solid #fef08a; border-radius:6px;">Current Balance: <span id="cm-bal" class="bold" style="color:#d97706">₹0</span></div>
+        <label>Action Type</label>
+        <select id="cm-act" onchange="AV.Fin.togProof()">
+            <option value="ADD">Add Debt (Gave Goods)</option>
+            <option value="SUB">Receive Payment</option>
+        </select>
+        <label>Amount</label><input id="cm-amt" type="number" min="1">
+        <label>Description / Note</label><input id="cm-ref">
+        
+        <div id="cm-proof-box" class="hidden" style="border-top:1px solid #eee; margin-top:10px; padding-top:15px;">
+            <div class="grid-2">
+                <div><label style="color:#dc2626">UTR Number</label><input id="cm-utr" placeholder="Enter UTR"></div>
+                <div><label style="color:#dc2626">Confirm UTR</label><input id="cm-utr-c" placeholder="Re-enter UTR"></div>
+            </div>
+            <label>Upload Payment Proof (HD)</label>
+            <input type="file" id="cm-img" accept="image/*">
+            <div class="text-sm" style="color:var(--text-mute)">*Image archived as HD (1000px)</div>
+        </div>
+
+        <button class="btn btn-pri full-w mt-2" onclick="AV.Fin.exec()">Process Transaction</button>
+        <button class="btn btn-sec full-w mt-2" onclick="AV.UI.closeM('m-credit')">Close</button>
+    </div></div>
+
+    <div id="m-cats" class="modal-mask"><div class="modal">
+        <h3>Manage Categories</h3>
+        <div class="flex mb-2">
+            <input id="new-cat" placeholder="New Category Name">
+            <button class="btn btn-pri" onclick="AV.Sys.addCat()">Add</button>
+        </div>
+        <div id="cat-list" class="flex-col scroll-y" style="max-height:300px;"></div>
+        <button class="btn btn-sec full-w mt-2" onclick="AV.UI.closeM('m-cats')">Done</button>
+    </div></div>
+
+    <div id="m-dash-set" class="modal-mask"><div class="modal">
+        <h3>Dashboard Visibility</h3>
+        <p class="text-sm mb-2">Uncheck to hide category from dashboard</p>
+        <div id="dash-vis-list" class="flex-col scroll-y" style="max-height:300px;"></div>
+        <button class="btn btn-sec full-w mt-2" onclick="AV.UI.closeM('m-dash-set');AV.Sys.dash()">Save & Close</button>
+    </div></div>
+
+    <div id="m-invoice" class="modal-mask"><div class="modal">
+        <div style="text-align:center;">
+            <h3>Success</h3>
+            <p class="mb-2">Invoice Generated Successfully</p>
+            <button class="btn btn-pri full-w mb-2" style="background:#25D366" onclick="AV.Sale.shareWA()"><i class="ph-bold ph-whatsapp-logo"></i> Share WhatsApp & PDF</button>
+            <button class="btn btn-sec full-w" onclick="AV.UI.closeM('m-invoice')">Close</button>
+        </div>
+    </div></div>
+
+    <div id="m-security" class="modal-mask"><div class="modal">
+        <h3>Security Settings</h3>
+        <label>Current Passcode</label><input type="password" id="sec-old">
+        <hr style="margin:10px 0; border:none; border-top:1px dashed #e2e8f0;">
+        <label>New Agent ID</label><input id="sec-new-user">
+        <label>New Passcode</label><input type="password" id="sec-new-pass">
+        <button class="btn btn-pri full-w mt-2" onclick="AV.Auth.update()">Update Credentials</button>
+        <button class="btn btn-sec full-w mt-2" onclick="AV.UI.closeM('m-security')">Cancel</button>
+    </div></div>
+
+    <div id="m-img-view" class="modal-mask" onclick="this.style.display='none'">
+        <img id="full-img" style="max-width:95%; max-height:95vh; border-radius:8px; box-shadow:0 0 50px black; margin:auto; display:block;">
+    </div>
+
+    <script>
+        const $ = id => document.getElementById(id);
+        const $$ = sel => document.querySelectorAll(sel);
+        
+        const AV = {
+            data: { inv:[], cust:[], dist:[], distStock:{}, sales:[], logs:[], payments:[], settings:{cats:[], hidden:[], auth:{user:'admin', pass:'admin'}}, logo: null },
+            cart: [],
+            temp: { selCust: null, lastSale: null, editId: null, creditId: null, creditType: null, repData: null, repDate: null },
+
+            Sys: {
+                init: () => {
+                    const stored = localStorage.getItem('AV_DB_V5');
+                    if(stored) AV.data = JSON.parse(stored);
+                    
+                    if(!AV.data.settings) AV.data.settings = { cats: ["Lights", "Horns", "Basstube", "Damping", "Steering Cover", "Underseat", "UHD Camera", "AHD Camera", "Centerlock", "Ambient Light"], hidden: [], auth:{user:'admin', pass:'admin'} };
+                    if(!AV.data.settings.auth) AV.data.settings.auth = {user:'admin', pass:'admin'};
+                    if(!AV.data.payments) AV.data.payments = [];
+                    if(!AV.data.logs) AV.data.logs = [];
+
+                    AV.data.inv.forEach(i => { if(!i.dateAdded) i.dateAdded = Date.now() - 2592000000; if(!i.soldQty) i.soldQty = 0; });
+
+                    $('sys-date').innerText = new Date().toDateString();
+                    if(AV.data.logo) { $('sb-logo').src = AV.data.logo; $('logo-prev').src = AV.data.logo; }
+                    
+                    AV.Sys.renderCats();
+                    AV.Inv.render();
+                    AV.Sys.dash();
+                    AV.Sys.renderLogs();
+                    AV.Auth.checkActivity();
+                },
+                save: () => {
+                    localStorage.setItem('AV_DB_V5', JSON.stringify(AV.data));
+                    AV.Sys.dash();
+                },
+                log: (type, msg, det) => {
+                    const l = { t: Date.now(), type: type, msg: msg, det: det };
+                    AV.data.logs.unshift(l);
+                    if(AV.data.logs.length > 5000) AV.data.logs.pop(); 
+                    AV.Sys.save();
+                    AV.Sys.renderLogs();
+                },
+                dash: () => {
+                    // Storage Check
+                    const used = JSON.stringify(localStorage).length;
+                    const max = 5 * 1024 * 1024; // Approx 5MB
+                    const pct = Math.min(100, (used/max)*100).toFixed(1);
+                    $('str-use').innerText = `${pct}%`;
+                    $('d-str-txt').innerText = `${pct}%`;
+                    $('str-bar').style.width = `${pct}%`;
+                    $('d-str-bar').style.width = `${pct}%`;
+                    
+                    const color = pct > 90 ? '#dc2626' : (pct > 70 ? '#d97706' : 'var(--olive-pri)');
+                    $('str-bar').style.backgroundColor = color;
+                    $('d-str-bar').style.backgroundColor = color;
+                    
+                    if(pct > 95) AV.UI.toast("Critical: Storage Full! Archive Now.");
+
+                    // Render Visible Categories
+                    $('dash-cats').innerHTML = AV.data.settings.cats
+                        .filter(c => !AV.data.settings.hidden.includes(c))
+                        .map(c => {
+                            const qty = AV.data.inv.filter(item => item.cat === c).reduce((a,b) => a + (parseInt(b.qty)||0), 0);
+                            return `<div class="card" style="padding:15px; display:flex; justify-content:space-between; align-items:center;">
+                                <div style="font-size:11px; color:#64748b; font-weight:700;">${c.toUpperCase()}</div>
+                                <div style="font-size:24px; font-weight:700; color:var(--text-main);">${qty}</div>
+                            </div>`;
+                        }).join('');
+
+                    // Analytics
+                    const todayStr = new Date().toDateString();
+                    const salesToday = AV.data.sales.filter(s => new Date(parseInt(s.id.split('-')[1])).toDateString() === todayStr);
+                    const revToday = salesToday.reduce((a,b) => a + b.total, 0);
+                    
+                    const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
+                    const deadItems = AV.data.inv.filter(i => i.dateAdded < thirtyDaysAgo && i.soldQty < 2);
+
+                    $('d-sale-today').innerText = '₹' + revToday.toLocaleString();
+                    $('d-dead-stock').innerText = deadItems.length;
+                    $('d-tot-items').innerText = AV.data.inv.length;
+                    $('d-low-alert').innerText = AV.data.inv.filter(i => i.qty < 5).length;
+
+                    // Tables
+                    const topItems = [...AV.data.inv].sort((a,b) => b.soldQty - a.soldQty).slice(0, 3);
+                    $('t-top-sell').querySelector('tbody').innerHTML = topItems.map(i => `<tr><td>${i.name}</td><td class="bold" style="color:#166534">${i.soldQty}</td></tr>`).join('');
+                    
+                    $('t-dead-sell').querySelector('tbody').innerHTML = deadItems.slice(0,3).map(i => `<tr><td>${i.name}</td><td class="text-sm">${new Date(i.dateAdded).toLocaleDateString()}</td></tr>`).join('');
+                },
+                bkp: () => {
+                    const blob = new Blob([JSON.stringify(AV.data)], {type: "application/json"});
+                    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "AV_FULL_BACKUP_" + Date.now() + ".json"; a.click();
+                },
+                bkpDataOnly: () => {
+                    const cleanData = JSON.parse(JSON.stringify(AV.data));
+                    cleanData.payments.forEach(p => p.proof = null);
+                    const blob = new Blob([JSON.stringify(cleanData)], {type: "application/json"});
+                    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "AV_LITE_DATA_" + Date.now() + ".json"; a.click();
+                },
+                archiveImages: async () => {
+                    if(!AV.data.payments.some(p => p.proof)) return alert("No images found to archive.");
+                    
+                    if(!confirm("This will DOWNLOAD all payment images to a ZIP file and then DELETE them from the browser to free up space.\n\nContinue?")) return;
+
+                    const zip = new JSZip();
+                    const folder = zip.folder("payment_proofs");
+                    let count = 0;
+
+                    AV.data.payments.forEach(p => {
+                        if(p.proof) {
+                            try {
+                                const data = p.proof.split(',')[1];
+                                const ext = p.proof.split(';')[0].split('/')[1] || 'png';
+                                const filename = `proof_${p.id}_${p.custName.replace(/[^a-z0-9]/gi, '_')}.${ext}`;
+                                folder.file(filename, data, {base64: true});
+                                count++;
+                            } catch(e) { console.error("Err archiving image", e); }
+                        }
+                    });
+
+                    const content = await zip.generateAsync({type:"blob"});
+                    saveAs(content, `Anritvox_Images_Archive_${Date.now()}.zip`);
+
+                    setTimeout(() => {
+                        if(confirm(`ZIP Download started for ${count} images.\n\nIs the file saved successfully? Click OK to purge images from browser storage now.`)) {
+                            AV.data.payments.forEach(p => p.proof = null);
+                            AV.Sys.save();
+                            AV.UI.toast(`Purged ${count} images. Storage freed!`);
+                        }
+                    }, 1000);
+                },
+                rst: (input) => {
+                    const fr = new FileReader();
+                    fr.onload = e => { AV.data = JSON.parse(e.target.result); AV.Sys.save(); location.reload(); };
+                    fr.readAsText(input.files[0]);
+                },
+                addCat: () => {
+                    const n = $('new-cat').value.trim();
+                    if(n && !AV.data.settings.cats.includes(n)) {
+                        AV.data.settings.cats.push(n);
+                        $('new-cat').value = '';
+                        AV.Sys.renderCats(); AV.Sys.save();
+                    }
+                },
+                delCat: (n) => {
+                    if(confirm("Remove category?")) {
+                        AV.data.settings.cats = AV.data.settings.cats.filter(c => c !== n);
+                        AV.Sys.renderCats(); AV.Sys.save();
+                    }
+                },
+                togVis: (cat) => {
+                    if(AV.data.settings.hidden.includes(cat)) {
+                        AV.data.settings.hidden = AV.data.settings.hidden.filter(c => c !== cat);
+                    } else {
+                        AV.data.settings.hidden.push(cat);
+                    }
+                    AV.Sys.renderCats();
+                },
+                renderCats: () => {
+                    $('cat-list').innerHTML = AV.data.settings.cats.map(c => `
+                        <div class="flex between" style="background:#f8fafc; padding:8px; border-radius:4px;">
+                            <span>${c}</span>
+                            <button class="btn btn-dan btn-sm" onclick="AV.Sys.delCat('${c}')">x</button>
+                        </div>`).join('');
+                    
+                    $('dash-vis-list').innerHTML = AV.data.settings.cats.map(c => `
+                        <div class="flex" style="padding:5px;">
+                            <input type="checkbox" style="width:auto;" ${!AV.data.settings.hidden.includes(c)?'checked':''} onchange="AV.Sys.togVis('${c}')">
+                            <span>${c}</span>
+                        </div>`).join('');
+                        
+                    const opts = `<option value="ALL">All Categories</option>` + AV.data.settings.cats.map(c => `<option value="${c}">${c}</option>`).join('');
+                    $('inv-filter').innerHTML = opts;
+                    $('ni-cat').innerHTML = AV.data.settings.cats.map(c => `<option value="${c}">${c}</option>`).join('');
+                },
+                renderLogs: () => {
+                    const l = AV.data.logs.slice(0, 50); 
+                    $('t-logs').querySelector('tbody').innerHTML = l.map(x => `<tr><td>${new Date(x.t).toLocaleString()}</td><td><span class="pill p-gray">${x.type}</span></td><td>${x.msg}</td></tr>`).join('');
+                },
+                exportLogsExcel: () => {
+                    const ws = XLSX.utils.json_to_sheet(AV.data.logs.map(l => ({
+                        Time: new Date(l.t).toLocaleString(),
+                        Action: l.type,
+                        Details: l.msg,
+                        MetaData: JSON.stringify(l.det || {})
+                    })));
+                    ws['!cols'] = [{wch:20}, {wch:10}, {wch:40}, {wch:30}];
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, "System_Logs");
+                    XLSX.writeFile(wb, "Anritvox_Logs.xlsx");
+                },
+                exportSalesExcel: () => {
+                    const ws = XLSX.utils.json_to_sheet(AV.data.sales.map(s => ({
+                        ID: s.id,
+                        Date: new Date(parseInt(s.id.split('-')[1])).toLocaleDateString(),
+                        Customer: s.cust.name,
+                        Total: s.total
+                    })));
+                    ws['!cols'] = [{wch:15}, {wch:15}, {wch:25}, {wch:10}];
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, "Sales_Data");
+                    XLSX.writeFile(wb, "Sales_Export.xlsx");
+                },
+                exportStockExcel: () => {
+                    const ws = XLSX.utils.json_to_sheet(AV.data.inv.map(i => ({
+                        Name: i.name, Category: i.cat, Qty: i.qty, Price: i.price, Sold: i.soldQty||0
+                    })));
+                    ws['!cols'] = [{wch:30}, {wch:15}, {wch:8}, {wch:10}, {wch:8}];
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, "Inventory");
+                    XLSX.writeFile(wb, "Stock_Export.xlsx");
+                },
+                setLogo: (input) => {
+                    const file = input.files[0];
+                    if(!file) return;
+                    const img = new Image();
+                    img.src = URL.createObjectURL(file);
+                    img.onload = () => {
+                        const cvs = document.createElement('canvas');
+                        const ctx = cvs.getContext('2d');
+                        const scale = 300 / img.width; 
+                        cvs.width = 300; cvs.height = img.height * scale;
+                        ctx.drawImage(img, 0, 0, cvs.width, cvs.height);
+                        AV.data.logo = cvs.toDataURL('image/png', 0.9);
+                        $('sb-logo').src = AV.data.logo; $('logo-prev').src = AV.data.logo;
+                        AV.Sys.save();
+                    }
+                }
+            },
+
+            Auth: {
+                login: () => {
+                    const u = $('l-u').value;
+                    const p = $('l-p').value;
+                    const auth = AV.data.settings.auth;
+                    
+                    if(u === auth.user && p === auth.pass) {
+                        sessionStorage.setItem('AV_SESSION', 'true');
+                        $('login-screen').classList.add('hidden');
+                        $('app').style.display = 'flex';
+                        AV.Sys.init();
+                    } else $('l-msg').innerText = "Invalid Credentials";
+                },
+                update: () => {
+                    const old = $('sec-old').value;
+                    if(old !== AV.data.settings.auth.pass) return alert("Current Passcode Incorrect");
+                    
+                    const newUser = $('sec-new-user').value;
+                    const newPass = $('sec-new-pass').value;
+                    if(newUser && newPass) {
+                        AV.data.settings.auth = { user: newUser, pass: newPass };
+                        AV.Sys.save();
+                        alert("Credentials Updated! Please login again.");
+                        AV.Auth.logout();
+                    }
+                },
+                logout: () => {
+                    sessionStorage.removeItem('AV_SESSION');
+                    location.reload();
+                },
+                checkActivity: () => {
+                    let idleTime = 0;
+                    const reset = () => idleTime = 0;
+                    window.onmousemove = reset;
+                    window.onkeypress = reset;
+                    setInterval(() => {
+                        idleTime++;
+                        if(idleTime > 900) { 
+                            alert("System Auto-Locked due to inactivity.");
+                            AV.Auth.logout();
+                        }
+                    }, 1000);
+                }
+            },
+
+            UI: {
+                nav: (id) => {
+                    $$('.view').forEach(el => el.classList.remove('active'));
+                    $$('.nav-item').forEach(el => el.classList.remove('active'));
+                    $('v-'+id).classList.add('active');
+                    event.currentTarget.classList.add('active');
+                    if(id==='sale') AV.Sale.loadItems();
+                    if(id==='trans') AV.Trans.load();
+                    if(id==='ret') AV.Ret.load();
+                    if(id==='dist') AV.Dist.render();
+                    if(id==='map') AV.Map.render();
+                    if(id==='rep') AV.Rep.gen(true); // AUTO-LOAD REPORT
+                    $('page-title').innerText = id === 'dash' ? 'DASHBOARD' : id.toUpperCase();
+                },
+                modal: (id) => { $(id).style.display = 'flex'; },
+                closeM: (id) => $(id).style.display = 'none',
+                viewImg: (src) => {
+                    $('full-img').src = src;
+                    $('m-img-view').style.display = 'flex';
+                },
+                dlImg: (src, name) => {
+                    const link = document.createElement('a');
+                    link.href = src;
+                    link.download = name || 'image.jpg';
+                    link.click();
+                },
+                sort: (tid, col) => {
+                    const tbody = $(tid).querySelector('tbody');
+                    const rows = Array.from(tbody.querySelectorAll('tr'));
+                    const isAsc = tbody.getAttribute('data-asc') === 'true';
+                    
+                    rows.sort((a,b) => {
+                        const v1 = a.children[col].innerText;
+                        const v2 = b.children[col].innerText;
+                        return isAsc ? v1.localeCompare(v2, undefined, {numeric: true}) : v2.localeCompare(v1, undefined, {numeric: true});
+                    });
+                    
+                    tbody.setAttribute('data-asc', !isAsc);
+                    tbody.innerHTML = '';
+                    rows.forEach(r => tbody.appendChild(r));
+                },
+                toast: (msg) => {
+                    const d = document.createElement('div');
+                    d.style = "background:#2c3325; color:#fff; padding:12px 20px; border-radius:6px; font-size:13px; margin-top:10px; box-shadow:0 10px 20px rgba(0,0,0,0.2); animation:slideUp 0.3s;";
+                    d.innerText = msg;
+                    $('toast-feed').appendChild(d);
+                    setTimeout(() => d.remove(), 3000);
+                }
+            },
+
+            Inv: {
+                render: () => {
+                    const q = $('inv-s').value.toLowerCase();
+                    const cat = $('inv-filter').value;
+                    const tbody = $('t-inv').querySelector('tbody');
+                    const items = AV.data.inv.filter(i => (cat === 'ALL' || i.cat === cat) && i.name.toLowerCase().includes(q));
+                    
+                    tbody.innerHTML = items.map(i => `
+                        <tr>
+                            <td><span class="bold">${i.name}</span></td>
+                            <td><span class="pill p-gray">${i.cat}</span></td>
+                            <td>${i.qty}</td>
+                            <td>${i.price}</td>
+                            <td>
+                                <button class="btn btn-sec btn-sm" onclick="AV.Inv.edit('${i.id}')">Edit</button> 
+                                <button class="btn btn-dan btn-sm" onclick="AV.Inv.del('${i.id}')">Del</button>
+                            </td>
+                        </tr>`).join('');
+                },
+                newItem: () => {
+                    AV.temp.editId = null;
+                    $('ni-n').value=''; $('ni-q').value=0; $('ni-p').value=0;
+                    AV.UI.modal('m-add-item');
+                },
+                edit: (id) => {
+                    const i = AV.data.inv.find(x => x.id == id);
+                    if(!i) return;
+                    AV.temp.editId = id;
+                    $('ni-cat').value = i.cat; $('ni-n').value = i.name; $('ni-q').value = i.qty; $('ni-p').value = i.price;
+                    AV.UI.modal('m-add-item');
+                },
+                add: () => {
+                    const n = $('ni-n').value;
+                    const q = parseInt($('ni-q').value);
+                    const p = parseFloat($('ni-p').value);
+                    if(!n || q < 0 || p < 0) return alert("Invalid Data. No negative numbers.");
+                    
+                    if (AV.temp.editId) {
+                        const i = AV.data.inv.find(x => x.id == AV.temp.editId);
+                        i.cat = $('ni-cat').value; i.name = n; i.qty = q; i.price = p;
+                        AV.Sys.log("EDIT", `Updated Item ${n}`, i);
+                    } else {
+                        AV.data.inv.push({ id: Date.now(), dateAdded: Date.now(), soldQty: 0, cat: $('ni-cat').value, name: n, qty: q, price: p });
+                        AV.Sys.log("ADD", `Added Item ${n}`, {});
+                    }
+                    AV.UI.closeM('m-add-item'); AV.Sys.save(); AV.Inv.render();
+                },
+                importExcel: () => {
+                    const file = $('imp-file').files[0];
+                    if(!file) return alert("Select File");
+                    
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, {type: 'array'});
+                        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                        const items = XLSX.utils.sheet_to_json(firstSheet);
+                        
+                        let count = 0;
+                        items.forEach(row => {
+                            if(row.Name && row.Price) {
+                                AV.data.inv.push({
+                                    id: Date.now() + Math.random(),
+                                    dateAdded: Date.now(),
+                                    soldQty: 0,
+                                    cat: row.Category || 'General',
+                                    name: row.Name,
+                                    qty: parseInt(row.Qty) || 0,
+                                    price: parseFloat(row.Price) || 0
+                                });
+                                count++;
+                            }
+                        });
+                        AV.Sys.save();
+                        AV.Inv.render();
+                        AV.UI.closeM('m-imp-stock');
+                        alert(`Imported ${count} items successfully.`);
+                        AV.Sys.log("IMPORT", `Bulk imported ${count} items from Excel`, {});
+                    };
+                    reader.readAsArrayBuffer(file);
+                },
+                del: (id) => {
+                    if(confirm("Delete item?")) {
+                        const n = AV.data.inv.find(i=>i.id==id).name;
+                        AV.data.inv = AV.data.inv.filter(i => i.id != id);
+                        AV.Sys.log("DEL", `Deleted Item ${n}`, {});
+                        AV.Sys.save(); AV.Inv.render();
+                    }
+                }
+            },
+
+            Map: {
+                render: () => {
+                    $('t-cust').querySelector('tbody').innerHTML = AV.data.cust.map(c => `
+                        <tr>
+                            <td>${c.name}</td>
+                            <td>${c.phone}</td>
+                            <td class="bold" style="color:${(c.wallet||0)>0?'#d97706':'#15803d'}">₹${c.wallet||0}</td>
+                            <td>
+                                <button class="btn btn-sec btn-sm" onclick="AV.Fin.open('CUST', '${c.id}')">Credit</button> 
+                                <button class="btn btn-sec btn-sm" onclick="AV.Map.edit('${c.id}')">Edit</button>
+                            </td>
+                        </tr>`).join('');
+                },
+                newCust: () => {
+                    AV.temp.editId = null;
+                    $('nc-n').value=''; $('nc-p').value=''; $('nc-l').value='';
+                    AV.UI.modal('m-add-cust');
+                },
+                edit: (id) => {
+                    const c = AV.data.cust.find(x=>x.id==id);
+                    if(!c) return;
+                    AV.temp.editId = id;
+                    $('nc-n').value = c.name; $('nc-p').value = c.phone; $('nc-l').value = c.city; $('nc-t').value = c.type;
+                    AV.UI.modal('m-add-cust');
+                },
+                add: () => {
+                    const n = $('nc-n').value, p = $('nc-p').value;
+                    if(!n || !p) return alert("Missing Data");
+                    if(AV.temp.editId) {
+                        const c = AV.data.cust.find(x=>x.id==AV.temp.editId);
+                        c.name = n; c.phone = p; c.city = $('nc-l').value; c.type = $('nc-t').value;
+                    } else {
+                        AV.data.cust.push({id:Date.now(), name:n, phone:p, city:$('nc-l').value, type:$('nc-t').value, wallet:0});
+                    }
+                    AV.UI.closeM('m-add-cust'); AV.Sys.save(); AV.Map.render();
+                }
+            },
+
+            Dist: {
+                render: () => {
+                    $('dist-grid').innerHTML = AV.data.dist.map(d => `
+                        <div class="card">
+                            <div class="flex between"><h3>${d.name}</h3><span class="bold" style="color:${(d.wallet||0)>0?'#d97706':'#15803d'}">₹${d.wallet||0}</span></div>
+                            <div class="text-sm">Phone: ${d.phone}</div>
+                            <div class="flex mt-2">
+                                <button class="btn btn-sec btn-sm full-w" onclick="AV.Dist.view('${d.id}')">Stock</button>
+                                <button class="btn btn-sec btn-sm full-w" onclick="AV.Fin.open('DIST', '${d.id}')">Credit</button>
+                            </div>
+                        </div>`).join('');
+                },
+                add: () => {
+                    const n = $('nd-n').value;
+                    if(!n) return alert("Name required");
+                    AV.data.dist.push({id:'D'+Date.now(), name:n, phone:$('nd-p').value, wallet:0});
+                    AV.Sys.save(); AV.UI.closeM('m-add-dist'); AV.Dist.render();
+                },
+                view: (did) => {
+                    const d = AV.data.dist.find(x => x.id === did);
+                    let msg = `Stock held by ${d.name}:\n\n`;
+                    AV.data.inv.forEach(i => {
+                        const qty = AV.data.distStock[did + '_' + i.id] || 0;
+                        if(qty > 0) msg += `${i.name}: ${qty}\n`;
+                    });
+                    alert(msg);
+                }
+            },
+
+            Fin: {
+                open: (type, id) => {
+                    AV.temp.creditType = type; AV.temp.creditId = id;
+                    let ent = type === 'CUST' ? AV.data.cust.find(x=>x.id==id) : AV.data.dist.find(x=>x.id==id);
+                    $('cm-bal').innerText = `₹${ent.wallet||0}`;
+                    $('cm-amt').value = ''; $('cm-ref').value = '';
+                    // Reset UTR UI
+                    $('cm-act').value = 'ADD';
+                    $('cm-proof-box').classList.add('hidden');
+                    AV.UI.modal('m-credit');
+                },
+                togProof: () => {
+                    const act = $('cm-act').value;
+                    if(act === 'SUB') $('cm-proof-box').classList.remove('hidden');
+                    else $('cm-proof-box').classList.add('hidden');
+                },
+                exec: () => {
+                    const amt = parseFloat($('cm-amt').value);
+                    const act = $('cm-act').value;
+                    if(!amt || amt <= 0) return alert("Invalid Amount");
+                    
+                    const type = AV.temp.creditType, id = AV.temp.creditId;
+                    let ent = type === 'CUST' ? AV.data.cust.find(x=>x.id==id) : AV.data.dist.find(x=>x.id==id);
+                    if(!ent.wallet) ent.wallet = 0;
+                    
+                    if(act === 'ADD') { 
+                        ent.wallet += amt; 
+                        AV.Sys.log("DEBT", `Added Debt ₹${amt} to ${ent.name}`, {ref:$('cm-ref').value});
+                    } else {
+                        // Payment Logic
+                        const utr = $('cm-utr').value;
+                        const utrc = $('cm-utr-c').value;
+                        const file = $('cm-img').files[0];
+                        
+                        if(utr !== utrc) return alert("UTR Numbers do not match!");
+                        if(!utr) return alert("UTR Required");
+
+                        // Process Image Comp
+                        if(file) {
+                            const img = new Image();
+                            img.src = URL.createObjectURL(file);
+                            img.onload = () => {
+                                const cvs = document.createElement('canvas');
+                                const ctx = cvs.getContext('2d');
+                                const scale = 300 / img.width; // Thumbnail size
+                                cvs.width = 300; cvs.height = img.height * scale;
+                                ctx.drawImage(img, 0, 0, cvs.width, cvs.height);
+                                const thumb = cvs.toDataURL('image/jpeg', 0.5); // 50% quality
+                                
+                                AV.data.payments.push({ id: Date.now(), custId: id, custName: ent.name, amt: amt, utr: utr, proof: thumb, date: Date.now() });
+                                ent.wallet -= amt;
+                                AV.Sys.log("PAYMENT", `Rec ₹${amt} from ${ent.name}`, {utr:utr});
+                                AV.Sys.save(); AV.UI.toast("Payment Verified & Saved");
+                                if(type==='CUST') AV.Map.render(); if(type==='DIST') AV.Dist.render();
+                                AV.UI.closeM('m-credit');
+                            }
+                        } else {
+                            // No image
+                            AV.data.payments.push({ id: Date.now(), custId: id, custName: ent.name, amt: amt, utr: utr, proof: null, date: Date.now() });
+                            ent.wallet -= amt;
+                            AV.Sys.log("PAYMENT", `Rec ₹${amt} from ${ent.name}`, {utr:utr});
+                            AV.Sys.save(); AV.UI.toast("Payment Saved");
+                            if(type==='CUST') AV.Map.render(); if(type==='DIST') AV.Dist.render();
+                            AV.UI.closeM('m-credit');
+                        }
+                        return; // Async handled above
+                    }
+                    
+                    AV.Sys.save(); $('cm-bal').innerText = `₹${ent.wallet}`;
+                    if(type==='CUST') AV.Map.render(); if(type==='DIST') AV.Dist.render();
+                    AV.UI.toast("Updated");
+                }
+            },
+
+            Trans: {
+                load: () => {
+                    $('tf-dist').innerHTML = AV.data.dist.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
+                    $('tf-item').innerHTML = AV.data.inv.map(i => {
+                        const style = i.qty < 5 ? 'color:#dc2626; font-weight:bold;' : '';
+                        const warn = i.qty < 5 ? ' ⚠️' : '';
+                        return `<option value="${i.id}" style="${style}">${i.name} (WH: ${i.qty}${warn})</option>`;
+                    }).join('');
+                },
+                exec: () => {
+                    const did = $('tf-dist').value, iid = $('tf-item').value, qty = parseInt($('tf-qty').value);
+                    if(qty < 1) return alert("Invalid Qty");
+                    
+                    const item = AV.data.inv.find(i => i.id == iid);
+                    if(item.qty < qty) return alert(`Insufficient Stock in Warehouse. Available: ${item.qty}`);
+                    
+                    item.qty -= qty;
+                    const key = did + '_' + iid;
+                    AV.data.distStock[key] = (AV.data.distStock[key] || 0) + qty;
+                    AV.Sys.log("TRANS", `Trans ${qty} ${item.name} -> Dist`, {});
+                    AV.Sys.save(); AV.Trans.load(); AV.UI.toast("Transferred");
+                }
+            },
+
+            Ret: {
+                load: () => {
+                    $('rt-dist').innerHTML = AV.data.dist.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
+                    AV.Ret.loadItems();
+                },
+                loadItems: () => {
+                    const did = $('rt-dist').value;
+                    $('rt-item').innerHTML = AV.data.inv.map(i => {
+                        const q = AV.data.distStock[did + '_' + i.id] || 0;
+                        return q > 0 ? `<option value="${i.id}">${i.name} (Held: ${q})</option>` : '';
+                    }).join('');
+                },
+                exec: (cond) => {
+                    const did = $('rt-dist').value, iid = $('rt-item').value, qty = parseInt($('rt-qty').value);
+                    if(!iid || qty < 1) return alert("Invalid Selection");
+                    
+                    const key = did + '_' + iid;
+                    const available = AV.data.distStock[key] || 0;
+                    
+                    if(available < qty) return alert(`Distributor only has ${available} units.`);
+                    
+                    AV.data.distStock[key] -= qty;
+                    if(cond === 'GOOD') {
+                        AV.data.inv.find(i => i.id == iid).qty += qty;
+                        AV.Sys.log("RET", `Ret (Good) ${qty} ${AV.data.inv.find(i=>i.id==iid).name}`, {});
+                    } else {
+                        AV.Sys.log("RET", `Ret (Bad) ${qty} Scrapped`, {});
+                    }
+                    AV.Sys.save(); AV.Ret.load(); AV.UI.toast("Returned");
+                }
+            },
+
+            Sale: {
+                loadItems: () => {
+                    const src = $('sl-src').value;
+                    $('sl-src').innerHTML = `<option value="WH">Warehouse</option>` + AV.data.dist.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
+                    const actualSrc = $('sl-src').value; 
+                    $('sl-item').innerHTML = `<option value="">Select Item...</option>` + AV.data.inv.map(i => {
+                        let qty = actualSrc === 'WH' ? i.qty : (AV.data.distStock[actualSrc + '_' + i.id] || 0);
+                        const style = qty < 5 ? 'color:#dc2626; font-weight:bold;' : '';
+                        const warn = qty < 5 ? ' ⚠️' : '';
+                        return qty > 0 ? `<option value="${i.id}" style="${style}">${i.name} (Qty: ${qty}${warn})</option>` : '';
+                    }).join('');
+                },
+                setPrice: () => {
+                    const i = AV.data.inv.find(x => x.id == $('sl-item').value);
+                    if(i) $('sl-price').value = i.price;
+                },
+                sug: (val) => {
+                    if(val.length < 1) { $('sl-sug').classList.add('hidden'); return; }
+                    const m = AV.data.cust.filter(c => c.name.toLowerCase().includes(val.toLowerCase()));
+                    $('sl-sug').innerHTML = m.map(c => `<div style="padding:10px; cursor:pointer; border-bottom:1px solid #eee;" onclick="AV.Sale.pickCust(${c.id})">${c.name}</div>`).join('');
+                    $('sl-sug').classList.remove('hidden');
+                },
+                pickCust: (id) => {
+                    const c = AV.data.cust.find(x => x.id == id);
+                    AV.temp.selCust = c; $('sl-c').value = c.name;
+                    $('sl-c-name').innerText = c.name; $('sl-c-phone').innerText = c.phone; $('sl-c-bal').innerText = `₹${c.wallet||0}`;
+                    $('sl-c-info').classList.remove('hidden'); $('sl-sug').classList.add('hidden');
+                },
+                add: () => {
+                    const iid = $('sl-item').value, q = parseInt($('sl-qty').value), p = parseFloat($('sl-price').value);
+                    if(!iid || q < 1 || isNaN(p)) return AV.UI.toast("Invalid Item or Quantity");
+                    
+                    // --- IRONCLAD STOCK CHECK ---
+                    const src = $('sl-src').value;
+                    let available = 0;
+                    
+                    if(src === 'WH') {
+                        available = AV.data.inv.find(x => x.id == iid).qty;
+                    } else {
+                        available = AV.data.distStock[src + '_' + iid] || 0;
+                    }
+                    
+                    // Check existing cart qty
+                    const inCart = AV.cart.filter(c => c.id == iid).reduce((a,b) => a + b.qty, 0);
+                    
+                    if((inCart + q) > available) {
+                        return alert(`Insufficient Stock! Available: ${available}, In Cart: ${inCart}`);
+                    }
+                    
+                    // Merge duplicates
+                    const existing = AV.cart.find(c => c.id == iid && c.price == p); // Only merge if price matches
+                    if(existing) {
+                        existing.qty += q;
+                    } else {
+                        AV.cart.push({id:iid, name:AV.data.inv.find(x => x.id == iid).name, qty:q, price:p});
+                    }
+                    
+                    AV.Sale.renderCart();
+                },
+                renderCart: () => {
+                    $('t-cart').querySelector('tbody').innerHTML = AV.cart.map((c, idx) => `<tr><td>${c.name}</td><td>${c.qty}</td><td>${c.qty*c.price}</td><td><button class="btn btn-dan btn-sm" onclick="AV.cart.splice(${idx},1);AV.Sale.renderCart()">x</button></td></tr>`).join('');
+                    $('sl-total').innerText = '₹' + AV.cart.reduce((a,b)=>a+(b.qty*b.price),0);
+                },
+                checkout: () => {
+                    if(AV.cart.length === 0 || !AV.temp.selCust) return alert("Empty Cart or No Customer");
+                    
+                    // Final Re-Validation
+                    const src = $('sl-src').value;
+                    let valid = true;
+                    
+                    AV.cart.forEach(c => {
+                        let available = 0;
+                        if(src === 'WH') available = AV.data.inv.find(i => i.id == c.id).qty;
+                        else available = AV.data.distStock[src + '_' + c.id] || 0;
+                        
+                        if(c.qty > available) valid = false;
+                    });
+                    
+                    if(!valid) return alert("Stock changed during transaction! Please clear cart and try again.");
+
+                    // Commit Transaction
+                    AV.cart.forEach(c => {
+                        if(src === 'WH') {
+                            const i = AV.data.inv.find(item => item.id == c.id);
+                            i.qty -= c.qty;
+                            i.soldQty = (i.soldQty || 0) + c.qty; 
+                        } else {
+                            AV.data.distStock[src + '_' + c.id] -= c.qty;
+                        }
+                    });
+                    
+                    const total = AV.cart.reduce((a,b)=>a+(b.qty*b.price),0);
+                    const saleId = 'INV-' + Date.now().toString().slice(-6);
+                    if(!AV.temp.selCust.wallet) AV.temp.selCust.wallet = 0;
+                    AV.temp.selCust.wallet += total;
+                    
+                    AV.temp.lastSale = { id: saleId, items: [...AV.cart], total: total, cust: AV.temp.selCust };
+                    AV.data.sales.push(AV.temp.lastSale);
+                    AV.Sys.log("SALE", `Sale ${saleId} (${AV.temp.selCust.name})`, {val:total}); 
+                    AV.Sys.save();
+                    AV.cart = []; $('sl-c').value = ''; $('sl-c-info').classList.add('hidden');
+                    AV.Sale.renderCart(); AV.Sale.loadItems(); AV.Map.render();
+                    AV.UI.modal('m-invoice');
+                },
+                shareWA: () => {
+                    const s = AV.temp.lastSale;
+                    if(!s) return;
+                    const doc = new window.jspdf.jsPDF();
+                    
+                    const logoData = AV.data.logo;
+                    if(logoData) { try { doc.addImage(logoData, 'PNG', 15, 10, 40, 15); } catch(e){} }
+                    
+                    doc.setFontSize(22); doc.setTextColor(85, 107, 47); doc.text("ANRITVOX", 195, 20, {align:'right'});
+                    doc.setFontSize(10); doc.setTextColor(100); doc.setFont(undefined, 'italic');
+                    doc.text("Your Trust, Our Priority", 195, 26, {align:'right'});
+                    doc.setFont(undefined, 'normal');
+                    doc.setLineWidth(0.5); doc.setDrawColor(200); doc.line(15, 32, 195, 32);
+
+                    doc.setFontSize(10); doc.setTextColor(0);
+                    doc.setFont(undefined, 'bold'); doc.text("BILLED TO:", 15, 42); doc.setFont(undefined, 'normal');
+                    doc.text(s.cust.name, 15, 48); doc.text("Phone: " + s.cust.phone, 15, 53);
+                    if(s.cust.city) doc.text(s.cust.city, 15, 58);
+
+                    doc.setFont(undefined, 'bold'); doc.text("INVOICE DETAILS:", 140, 42); doc.setFont(undefined, 'normal');
+                    doc.text(`Invoice No: ${s.id}`, 140, 48); doc.text(`Date: ${new Date().toLocaleDateString()}`, 140, 53);
+                    
+                    const rows = s.items.map(i => [i.name, i.qty, i.price, i.qty*i.price]);
+                    doc.autoTable({ startY: 65, head: [['Item Description', 'Qty', 'Rate', 'Amount']], body: rows, theme: 'striped', headStyles: { fillColor: [85, 107, 47], textColor: 255, fontStyle: 'bold' }, columnStyles: { 3: { halign: 'right' } }, styles: { fontSize: 10, cellPadding: 4 } });
+
+                    const finalY = doc.lastAutoTable.finalY + 10; const summaryX = 130;
+                    const currentTotal = s.total; const totalDue = s.cust.wallet; const prevBalance = totalDue - currentTotal;
+
+                    doc.setFontSize(10);
+                    doc.text(`Current Total:`, summaryX, finalY); doc.text(`Rs. ${currentTotal}`, 195, finalY, {align:'right'});
+                    doc.text(`Previous Balance:`, summaryX, finalY + 6); doc.text(`Rs. ${prevBalance}`, 195, finalY + 6, {align:'right'});
+                    doc.setFont(undefined, 'bold'); doc.setTextColor(200, 0, 0);
+                    doc.text(`Net Payable / Due:`, summaryX, finalY + 14); doc.text(`Rs. ${totalDue}`, 195, finalY + 14, {align:'right'});
+                    doc.setTextColor(0);
+
+                    const pageHeight = doc.internal.pageSize.height;
+                    doc.setFontSize(9); doc.setTextColor(150); doc.setFont(undefined, 'italic');
+                    doc.text("Your Trust, Our Priority", 105, pageHeight - 10, {align:'center'});
+
+                    doc.save(`Invoice_${s.id}.pdf`);
+                    
+                    let p = s.cust.phone.replace(/\D/g,''); if(p.length === 10) p = '91' + p;
+                    const msg = `*Greetings from ANRITVOX* 🌿%0A%0AHere is your invoice summary:%0A📄 *Invoice:* ${s.id}%0A📅 *Date:* ${new Date().toLocaleDateString()}%0A💰 *Amount:* ₹${s.total}%0A%0APlease find the detailed invoice attached (PDF).%0A%0A*Thank you for your purchase with Anritvox* 🙏%0A_Your Trust, Our Priority_`;
+                    window.open(`https://web.whatsapp.com/send?phone=${p}&text=${msg}`, '_blank');
+                }
+            },
+            
+            Rep: {
+                gen: (auto = false) => {
+                    // AUTO LOAD LOGIC: Use today if auto=true
+                    let d = $('rep-date').value;
+                    if(auto) {
+                        const today = new Date().toISOString().split('T')[0];
+                        $('rep-date').value = today;
+                        d = today;
+                    }
+                    if(!d) { if(!auto) alert("Select Date"); return; }
+                    
+                    const start = new Date(d).setHours(0,0,0,0);
+                    const end = new Date(d).setHours(23,59,59,999);
+                    
+                    const sales = AV.data.sales.filter(s => {
+                        const t = parseInt(s.id.split('-')[1]);
+                        return t >= start && t <= end;
+                    });
+                    const payments = AV.data.payments.filter(p => p.date >= start && p.date <= end);
+                    const logs = AV.data.logs.filter(l => l.t >= start && l.t <= end);
+
+                    const rev = sales.reduce((a,b) => a + b.total, 0);
+                    const items = sales.reduce((a,b) => a + b.items.reduce((x,y) => x + y.qty, 0), 0);
+                    const trans = logs.filter(l => l.type === 'TRANS').length;
+
+                    $('rep-rev').innerText = '₹' + rev;
+                    $('rep-items').innerText = items;
+                    $('rep-trans').innerText = trans;
+                    $('rep-logs').innerText = logs.length;
+                    
+                    let timeline = [];
+                    sales.forEach(s => timeline.push({ t: parseInt(s.id.split('-')[1]), type: 'SALE', det: `Inv ${s.id} (${s.cust.name})`, amt: s.total, proof: null }));
+                    payments.forEach(p => timeline.push({ t: p.date, type: 'PAYMENT', det: `Rec from ${p.custName}`, amt: p.amt, proof: p.proof }));
+                    logs.forEach(l => { if(l.type !== 'SALE' && l.type !== 'PAYMENT') timeline.push({ t: l.t, type: l.type, det: l.msg, amt: '-', proof: null }); });
+                    
+                    $('t-rep').querySelector('tbody').innerHTML = timeline.sort((a,b)=>a.t-b.t).map(r => `
+                        <tr>
+                            <td>${new Date(r.t).toLocaleTimeString()}</td>
+                            <td><span class="pill ${r.type==='SALE'?'p-green':(r.type==='PAYMENT'?'p-blue':'p-gray')}">${r.type}</span></td>
+                            <td>${r.det}</td>
+                            <td class="bold">${r.amt !== '-' ? '₹'+r.amt : '-'}</td>
+                            <td>${r.proof ? `<img src="${r.proof}" class="rep-thumb" onclick="AV.UI.viewImg('${r.proof}')">` : ''}</td>
+                        </tr>`).join('');
+                    
+                    AV.temp.repData = timeline;
+                    AV.temp.repDate = d;
+                    AV.Rep.renderGallery(payments);
+                },
+                renderGallery: (payments) => {
+                    $('rep-gal-grid').innerHTML = payments.filter(p => p.proof).map(p => `
+                        <div class="gal-item">
+                            <img src="${p.proof}" class="gal-img" onclick="AV.UI.viewImg('${p.proof}')">
+                            <div class="gal-dl" onclick="AV.UI.dlImg('${p.proof}', 'Proof_${p.custName}_${p.date}.jpg')"><i class="ph-bold ph-download-simple"></i></div>
+                            <div class="gal-cap">${p.custName} <br> ₹${p.amt}</div>
+                        </div>`).join('');
+                },
+                toggleMode: () => {
+                    const tbl = $('rep-tbl-view'); const gal = $('rep-gal-view');
+                    if(tbl.classList.contains('hidden')) { tbl.classList.remove('hidden'); gal.classList.add('hidden'); }
+                    else { tbl.classList.add('hidden'); gal.classList.remove('hidden'); }
+                },
+                expExcel: () => {
+                    if(!AV.temp.repData) return alert("Generate report first");
+                    
+                    const wsData = AV.temp.repData.map(r => ({
+                        Time: new Date(r.t).toLocaleString(),
+                        Type: r.type,
+                        Details: r.det,
+                        Amount: r.amt
+                    }));
+                    const ws = XLSX.utils.json_to_sheet(wsData);
+                    ws['!cols'] = [{wch:20}, {wch:15}, {wch:40}, {wch:15}];
+                    
+                    const wsStock = XLSX.utils.json_to_sheet(AV.data.inv.map(i => ({ Name:i.name, Cat:i.cat, Qty:i.qty })));
+                    wsStock['!cols'] = [{wch:30}, {wch:15}, {wch:10}];
+                    
+                    const wb = XLSX.utils.book_new();
+                    XLSX.utils.book_append_sheet(wb, ws, "Daily_Ledger");
+                    XLSX.utils.book_append_sheet(wb, wsStock, "Stock_Snapshot");
+                    
+                    XLSX.writeFile(wb, `Anritvox_Report_${AV.temp.repDate}.xlsx`);
+                }
+            }
+        };
+
+        window.onload = () => {
+            if(sessionStorage.getItem('AV_SESSION')) {
+                $('login-screen').classList.add('hidden');
+                $('app').style.display = 'flex';
+                AV.Sys.init();
+            } else {
+                $('login-screen').classList.remove('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
